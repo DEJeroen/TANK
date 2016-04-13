@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Forward"
         android:id="@+id/button"
+        android:onClick="onForwardClick"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -23,7 +24,8 @@
         android:id="@+id/button2"
         android:layout_below="@+id/button3"
         android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button" />
+        android:layout_alignEnd="@+id/button"
+        android:onClick="onBackwardClick"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -32,7 +34,8 @@
         android:id="@+id/button3"
         android:layout_below="@+id/button"
         android:layout_toLeftOf="@+id/button"
-        android:layout_toStartOf="@+id/button" />
+        android:layout_toStartOf="@+id/button"
+        android:onClick="onLeftClick"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -41,7 +44,8 @@
         android:id="@+id/button4"
         android:layout_below="@+id/button"
         android:layout_toRightOf="@+id/button"
-        android:layout_toEndOf="@+id/button" />
+        android:layout_toEndOf="@+id/button"
+        android:onClick="onRightClick"/>
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -53,5 +57,15 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connect"
+        android:id="@+id/connectButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="104dp"
+        android:onClick="onConnectClick"/>
 
 </RelativeLayout>
