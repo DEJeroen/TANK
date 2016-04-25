@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Backward"
         android:id="@+id/button2"
-        android:layout_below="@+id/button3"
+        android:layout_below="@+id/btnLeft"
         android:layout_alignRight="@+id/button"
         android:layout_alignEnd="@+id/button"
         android:onClick="onBackwardClick"/>
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Left"
-        android:id="@+id/button3"
+        android:id="@+id/btnLeft"
         android:layout_below="@+id/button"
         android:layout_toLeftOf="@+id/button"
         android:layout_toStartOf="@+id/button"
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Right"
-        android:id="@+id/button4"
+        android:id="@+id/btnRight"
         android:layout_below="@+id/button"
         android:layout_toRightOf="@+id/button"
         android:layout_toEndOf="@+id/button"
@@ -50,13 +50,11 @@
     <SeekBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:backgroundTint="#9f0f0f"
-        android:layout_below="@+id/button2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:id="@+id/seekBarRight"
+        android:rotation="270"
+        android:layout_toRightOf="@id/btnRight"
+        android:minWidth="1600dp"
+        android:layout_centerVertical="true"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -67,5 +65,24 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="104dp"
         android:onClick="onConnectClick"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:id="@+id/StopBtn"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="onStopClick"/>
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBarLeft"
+        android:rotation="270"
+        android:layout_toLeftOf="@id/btnLeft"
+        android:minWidth="2600dp"
+        android:layout_centerVertical="true"/>
+
 
 </RelativeLayout>

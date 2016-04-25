@@ -25,8 +25,13 @@ void loop() {
 
   if (Serial1.available()) {
         inbyte = Serial1.read();
+        Serial.println(inbyte);
+        
 
-  
+
+        if(inbyte ==  'r'){
+          counter = 0;
+          }
         
         if(inbyte >= '0' & inbyte <= '9')
             serialDataIn += inbyte - 48;
@@ -35,10 +40,12 @@ void loop() {
             serialDataIn = ("");
             counter = counter + 1;
         }
-        if(inbyte ==  'r' || counter >= 2){  // end of line
+        if(counter >= 2){  // end of line
 
           if (data[0] <= 255) {
             analogWrite(motor_left[0], data[0]);
+            Serial.println(data[0] + data[1] + "forward");
+
           }
           else {
             analogWrite(motor_left[1], data[1] - 255);
@@ -52,15 +59,15 @@ void loop() {
             analogWrite(motor_right[1], data[1] - 255);
             
           }
-
-            counter = 0;
-            
-          }
+          
+          counter = 0;
 
        
 
 Serial.println(data[0]);
 Serial.println(data[1]);
+        }
+  }
 }
-}
+
 
