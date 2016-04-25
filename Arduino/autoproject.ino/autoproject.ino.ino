@@ -5,7 +5,7 @@ int leftF, leftB, rightF, rightB;                                               
 
 byte inbyte;      //store serial input 
 String serialDataIn;
-int data[4];
+int data[2];
 int counter;
 String val;
 
@@ -35,23 +35,32 @@ void loop() {
             serialDataIn = ("");
             counter = counter + 1;
         }
-        if(inbyte ==  'r' || counter >= 4){  // end of line
-    
-            
+        if(inbyte ==  'r' || counter >= 2){  // end of line
+
+          if (data[0] <= 255) {
             analogWrite(motor_left[0], data[0]);
-            analogWrite(motor_left[1], data[1]);
-            analogWrite(motor_right[0], data[2]);
-            analogWrite(motor_right[1], data[3]);
+          }
+          else {
+            analogWrite(motor_left[1], data[1] - 255);
+            
+          }
+
+          if (data[1] <= 255) {
+            analogWrite(motor_right[0], data[0]);
+          }
+          else {
+            analogWrite(motor_right[1], data[1] - 255);
+            
+          }
+
             counter = 0;
             
           }
 
        
 
-Serial.println(motor_left[0]);
-Serial.println(motor_left[1]);
-Serial.println(motor_right[0]);
-Serial.println(motor_right[1]);
+Serial.println(data[0]);
+Serial.println(data[1]);
 }
 }
 
