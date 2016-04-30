@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private SeekBar volumeControl = null;
-    String  leftspeed = "255";
+    String  leftspeed = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         volumeControl = (SeekBar) findViewById(R.id.seekBarLeft);
         volumeControl.setMax(510);
-        volumeControl.setProgress(255);
+        volumeControl.setProgress(256);
 
         volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 0;
@@ -38,10 +38,12 @@ public class MainActivity extends AppCompatActivity {
                 progressChanged = progress;
                 leftspeed = Integer.toString(progressChanged);
                 try {
+                    btcon.send("r".getBytes());
                     btcon.send(leftspeed.getBytes());
                     btcon.send(",".getBytes());
                     btcon.send(leftspeed.getBytes());
-                    btcon.send("r".getBytes());
+                    btcon.send(",".getBytes());
+
 
                     //btcon.send("255".toString().getBytes());
                     //mOutputView.setText("");
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onLeftClick(View view){
         try {
-            btcon.send("510,0r".toString().getBytes());
+            btcon.send("510,255,".toString().getBytes());
 
             //btcon.send("255".toString().getBytes());
             //mOutputView.setText("");
@@ -108,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRightClick(View view){
         try {
 
-            btcon.send("0,510r".toString().getBytes());
+            btcon.send("255,510,".toString().getBytes());
             //btcon.send("255".toString().getBytes());
             //mOutputView.setText("");
 
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onForwardClick(View view){
         try {
-            btcon.send("510,510r".toString().getBytes());
+            btcon.send("510,510,".toString().getBytes());
 
             //btcon.send("255".toString().getBytes());
             //mOutputView.setText("");
@@ -129,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onBackwardClick(View view) {
         try {
-            btcon.send("0,0r".toString().getBytes());
+            btcon.send("255,255,".toString().getBytes());
 
             //btcon.send("255".toString().getBytes());
             //mOutputView.setText("");
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onStopClick(View view){
         try {
-            btcon.send("256,256r".toString().getBytes());
+            btcon.send("256,256,".toString().getBytes());
             //btcon.send("255".toString().getBytes());
             //mOutputView.setText("");
 
