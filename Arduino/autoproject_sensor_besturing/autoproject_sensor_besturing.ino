@@ -1,6 +1,6 @@
 #define trigPin 25
 #define echoPinFront 31
-//#define echoPinBack 33
+#define echoPinBack 29
 
 int motor_left[] = {4, 5};
 int motor_right[] = {2, 3};                                                                                                                   //store serial input 
@@ -20,7 +20,7 @@ void setup() {
 
   pinMode(trigPin, OUTPUT);
   pinMode(echoPinFront, INPUT);
-  //pinMode(echoPinBack, INPUT);
+  pinMode(echoPinBack, INPUT);
 }
 
 void loop() {
@@ -30,22 +30,30 @@ void loop() {
     delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
   
-    // Calculate to seconds.
     durationFront = pulseIn(echoPinFront, HIGH);
     distanceFront = (durationFront/2) / 29.1;
-    //durationBack = pulseIn(echoPinBack, HIGH);
-    //distanceBack = (durationBack/2) / 29.1;
     Serial.print(distanceFront);
     Serial.println(" cm front");
-    //Serial.print(distanceBack);
-    //Serial.println(" cm back");
+
+    delay(100);
+    
+    digitalWrite(trigPin, LOW); 
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    
+    durationBack = pulseIn(echoPinBack, HIGH);
+    distanceBack = (durationBack/2) / 29.1;
+    Serial.print(distanceBack);
+    Serial.println(" cm back");    
+    
     if (distanceFront > 10 /*&& forward == false*/) {
-      drive_forward();                                 
+                                       
       Serial.println("Forward");           
     } 
     
     else {
-      Serial.println("Stop");
       motor_stop();
 
       /*if (distanceFront < 10) {
@@ -59,7 +67,7 @@ void loop() {
       }*/
     }
 
-    delay(50);
+    delay(500);
 }
                                                                                    
 void motor_stop() {
