@@ -14,6 +14,7 @@ bool forward;
 
 void setup() {
   Serial.begin(9600);
+  Serial1.begin(9600);
 
   int i;
   for (i = 0; i < 2; i++) {
@@ -29,6 +30,13 @@ void setup() {
 }
 
 void loop() {
+  /*if (Serial1.available()) {
+    byteRead = Serial1.read();
+    Serial.println(byteRead);
+
+    if (byteRead==70) {
+    }
+  }*/
     digitalWrite(trigPin, LOW); 
     delayMicroseconds(2);
     digitalWrite(trigPin, HIGH);
@@ -40,7 +48,7 @@ void loop() {
     Serial.print(distanceFront);
     Serial.println(" cm FRONT");
 
-    delay(100);
+    delay(200);
     
     digitalWrite(trigPin, LOW); 
     delayMicroseconds(2);
@@ -53,7 +61,7 @@ void loop() {
     Serial.print(distanceBack);
     Serial.println(" cm BACK");    
 
-    delay(100);
+    delay(200);
     
     digitalWrite(trigPin, LOW); 
     delayMicroseconds(2);
@@ -66,7 +74,7 @@ void loop() {
     Serial.print(distanceLeft);
     Serial.println(" cm LEFT");
 
-    delay(100);
+    delay(200);
     
     digitalWrite(trigPin, LOW); 
     delayMicroseconds(2);
@@ -78,27 +86,20 @@ void loop() {
     distanceRight = (durationRight/2) / 29.1;
     Serial.print(distanceRight);
     Serial.println(" cm RIGHT");
-
-    
-    if (distanceFront > 15) {                               
-      Serial.println("drive_forward");           
-    } 
-    
-    else {
-      motor_stop();
-
-      /*if (distanceFront < 10) {
-        drive_right();
-        delay(2200);
-        if (distanceFront < 10) {
-          drive_left();
-          delay(1100);
-          drive_backward();                              
-        }
-      }*/
+    Serial.println("");
+    if (distanceFront > 15) {                             
+      Serial.println("drive_forward");
+      
     }
+    else {
+      Serial.println("motor_stop");
+      
+    }
+    Serial.println("");
+    
+    
 
-    delay(2000);
+    delay(1000);
 }
                                                                                    
 void motor_stop() {
