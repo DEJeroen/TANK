@@ -10,11 +10,13 @@ int motor_right[] = {2, 3};                                                     
 long durationFront, distanceFront, distanceBack, durationBack;
 long durationLeft, distanceLeft, distanceRight, durationRight;
 
-bool forward;
+int mstop, mforward, mbackward, mleft, mright;
 
 void setup() {
   Serial.begin(9600);
   Serial1.begin(9600);
+
+  mstop, mforward, mbackward, mleft, mright = 0;
 
   int i;
   for (i = 0; i < 2; i++) {
@@ -47,6 +49,13 @@ void loop() {
     distanceFront = (durationFront/2) / 29.1;
     Serial.print(distanceFront);
     Serial.println(" cm FRONT");
+    
+    if (distanceFront > 15) {                             
+      Serial.println("drive_forward");
+    } else {
+      Serial.println("motor_stop");
+      motor_stop();
+    }
 
     delay(200);
     
@@ -74,6 +83,18 @@ void loop() {
     Serial.print(distanceLeft);
     Serial.println(" cm LEFT");
 
+    if (mstop == 1) {
+      if (distanceLeft > 15) {
+        Serial.println("drive_left");
+      } 
+      else if (distanceRight > 15) {
+        Serial.println("drive_right");
+      }
+      else {
+        Serial.println("drive_backward");
+      }
+    }
+
     delay(200);
     
     digitalWrite(trigPin, LOW); 
@@ -87,22 +108,14 @@ void loop() {
     Serial.print(distanceRight);
     Serial.println(" cm RIGHT");
     Serial.println("");
-    if (distanceFront > 15) {                             
-      Serial.println("drive_forward");
-      
-    }
-    else {
-      Serial.println("motor_stop");
-      
-    }
-    Serial.println("");
     
     
 
-    delay(1000);
+    delay(500);
 }
                                                                                    
 void motor_stop() {
+  mstop = 1;
   analogWrite(motor_left[0], 0);
   analogWrite(motor_left[1], 0);
 
@@ -113,6 +126,7 @@ void motor_stop() {
 }
 
 void drive_backward() {
+  mbackward = 1;
   analogWrite(motor_left[0], 200);
   analogWrite(motor_left[1], 0);
 
@@ -121,6 +135,7 @@ void drive_backward() {
 }
 
 void drive_forward() {
+  mforward = 1;
   analogWrite(motor_left[0], 0);
   analogWrite(motor_left[1], 200);
 
@@ -129,6 +144,7 @@ void drive_forward() {
 }
 
 void drive_left() {
+  mleft = 1;
   analogWrite(motor_left[0], 0);
   analogWrite(motor_left[1], 200);
 
@@ -137,6 +153,7 @@ void drive_left() {
 }
 
 void drive_right() {
+  mright = 1;
   analogWrite(motor_left[0], 200);
   analogWrite(motor_left[1], 0);
 
