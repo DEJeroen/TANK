@@ -19,22 +19,61 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private SeekBar volumeControl = null;
+    private SeekBar leftControl = null;
     String  leftspeed = "0";
+
+    private SeekBar rightControl = null;
+    String  rightspeed = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        volumeControl = (SeekBar) findViewById(R.id.seekBarLeft);
-        volumeControl.setMax(510);
-        volumeControl.setProgress(256);
+        leftControl = (SeekBar) findViewById(R.id.seekBarLeft);
+        leftControl.setMax(510);
+        leftControl.setProgress(256);
+        rightControl = (SeekBar) findViewById(R.id.seekBarRight);
+        rightControl.setMax(510);
+        rightControl.setProgress(256);
 
-        volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+
+        rightControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            int progressChanged = 0;
+            public void onProgressChanged(SeekBar seekBarLeft, int progress, boolean fromUser) {
+                progressChanged = progress;
+                leftspeed = Integer.toString(progressChanged);
+                try {
+                    btcon.send("r".getBytes());
+                    btcon.send(leftspeed.getBytes());
+                    btcon.send(",".getBytes());
+                    btcon.send(leftspeed.getBytes());
+                    btcon.send(",".getBytes());
+
+
+                    //btcon.send("255".toString().getBytes());
+                    //mOutputView.setText("");
+
+                } catch (IOException | BluetoothConnection.BluetoothConnectionException e) {
+                    Log.e("Oxygen Bluetooth", "exception: " + e);
+                }
+            }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(MainActivity.this, "seek bar progress:" + progressChanged,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        leftControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 0;
 
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBarLeft, int progress, boolean fromUser) {
                 progressChanged = progress;
                 leftspeed = Integer.toString(progressChanged);
                 try {

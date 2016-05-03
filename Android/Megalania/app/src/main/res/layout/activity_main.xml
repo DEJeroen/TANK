@@ -61,19 +61,20 @@
         android:layout_height="wrap_content"
         android:text="Connect"
         android:id="@+id/connectButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="104dp"
-        android:onClick="onConnectClick"/>
+        android:onClick="onConnectClick"
+        android:layout_below="@+id/seekBarLeft"
+        android:layout_toRightOf="@+id/btnLeft"
+        android:layout_toEndOf="@+id/btnLeft" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stop"
         android:id="@+id/StopBtn"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="onStopClick"/>
+        android:onClick="onStopClick"
+        android:layout_below="@+id/button"
+        android:layout_toLeftOf="@+id/btnRight"
+        android:layout_toStartOf="@+id/btnRight" />
 
     <SeekBar
         android:layout_width="wrap_content"
