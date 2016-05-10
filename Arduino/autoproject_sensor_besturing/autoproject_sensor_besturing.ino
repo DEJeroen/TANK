@@ -86,12 +86,22 @@ void loop() {
     if (mstop == 1) {
       if (distanceLeft > 15) {
         Serial.println("drive_left");
+        //drive_left();                             //drive LEFT when there is room on the left side 
+        //delay(1100);                              //keep turning for 1.1s, can change based on the angle that we want
+        //drive_forward();                          //drive forward on this route
       } 
       else if (distanceRight > 15) {
         Serial.println("drive_right");
+        //drive_right();                            //drive RIGHT when there is room on the right side
+        //delay(1100);                              //keep turning for 1.1s, can change based on the angle that we want
+        //drive_forward();                          //drive forward on this route
       }
       else {
         Serial.println("drive_backward");
+        //drive_backward();                         //when there is no room on either side we drive backward
+        //delay(1500);                              //keep driving backward for 1.5s, can change as we wish
+        //drive_left();                             //when finished driving backward we have to turn 90 degrees
+        //delay(1100);                              //keep turning for 1.1s, can change based on the angle that we want
       }
     }
 
