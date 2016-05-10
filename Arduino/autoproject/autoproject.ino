@@ -1,4 +1,4 @@
-int motor_left[] = {4, 5};
+rint motor_left[] = {4, 5};
 int motor_right[] = {2, 3};
 int i;                                                                            //store motor left, right pins
 int leftF, leftB, rightF, rightB;                                                 //variables for different motor states
@@ -13,8 +13,9 @@ int counter;
 String val;
 
 void setup() {
-  Serial.begin(9600);
-  Serial1.begin(9600);  //start serial monitor
+  Serial.begin(9600);     //USB Serial
+  Serial1.begin(9600);  //Connection with Megalania (Android app)
+  Serial2.begin(9600);  //Connection with other car
 
   int i;
   for (i = 0; i < 2; i++) {
