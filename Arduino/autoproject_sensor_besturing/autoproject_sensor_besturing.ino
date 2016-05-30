@@ -1,22 +1,22 @@
 #define trigPin 25
-#define echoPinFront 31
-#define echoPinBack 29
+#define echoPinFront1 31
+#define echoPinFront2 29
 #define echoPinLeft 27
 #define echoPinRight 33
 
 int motor_left[] = {4, 5};
 int motor_right[] = {2, 3};                                                                                                                   //store serial input 
 
-long durationFront, distanceFront, distanceBack, durationBack;
+long durationFront1, distanceFront1, distanceFront2, durationFront2;
 long durationLeft, distanceLeft, distanceRight, durationRight;
 
-int mstop, mforward, mbackward, mleft, mright;
+bool mstop, mforward, mbackward, mleft, mright;
 
 void setup() {
   Serial.begin(9600);
-  Serial1.begin(9600);
+  //Serial1.begin(9600);
 
-  mstop, mforward, mbackward, mleft, mright = 0;
+  mstop, mforward, mbackward, mleft, mright = false;
 
   int i;
   for (i = 0; i < 2; i++) {
@@ -25,8 +25,8 @@ void setup() {
   }
 
   pinMode(trigPin, OUTPUT);
-  pinMode(echoPinFront, INPUT);
-  pinMode(echoPinBack, INPUT);
+  pinMode(echoPinFront1, INPUT);
+  pinMode(echoPinFront2, INPUT);
   pinMode(echoPinLeft, INPUT);
   pinMode(echoPinRight, INPUT);
 }
@@ -45,19 +45,12 @@ void loop() {
     delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
   
-    durationFront = pulseIn(echoPinFront, HIGH);
-    distanceFront = (durationFront/2) / 29.1;
-    Serial.print(distanceFront);
-    Serial.println(" cm FRONT");
-    
-    if (distanceFront > 15) {                             
-      Serial.println("drive_forward");
-    } else {
-      Serial.println("motor_stop");
-      motor_stop();
-    }
+    durationFront1 = pulseIn(echoPinFront1, HIGH);
+    distanceFront1 = (durationFront1 / 2) / 29.1;
+    //Serial.print(distanceFront1);
+    //Serial.println(" cm FRONT1");
 
-    delay(200);
+    delay(150);
     
     digitalWrite(trigPin, LOW); 
     delayMicroseconds(2);
@@ -65,12 +58,29 @@ void loop() {
     delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
     
-    durationBack = pulseIn(echoPinBack, HIGH);
-    distanceBack = (durationBack/2) / 29.1;
-    Serial.print(distanceBack);
-    Serial.println(" cm BACK");    
+    durationFront2 = pulseIn(echoPinFront2, HIGH);
+    distanceFront2 = (durationFront2 / 2) / 29.1;
+    //Serial.print(distanceFront2);
+    //Serial.println(" cm FRONT2");
+    
+    delay(150);
 
-    delay(200);
+    if (distanceFront1 > 15 && distanceFront2 > 15) {                             
+      //Serial.println("drive_forward");                          //if no object in front of neither front sensor, drive forward
+      drive_forward();
+    }
+    else if (distanceFront1 <= 15 && distanceFront2 > 15) {
+      //Serial.println("drive_left");                             //if an object is in front of the right sensor, drive left
+      drive_left();
+    }
+    else if (distanceFront2 <= 15 && distanceFront1 > 15) {
+      //Serial.println("drive_right");                            //if an object is in front of the left sensor, drive right
+      drive_right();
+    }
+    else if (distanceFront1 <= 15 && distanceFront2 <= 15) {
+      //Serial.println("motor_stop");
+      motor_stop();
+    }
     
     digitalWrite(trigPin, LOW); 
     delayMicroseconds(2);
@@ -79,33 +89,11 @@ void loop() {
     digitalWrite(trigPin, LOW);
 
     durationLeft = pulseIn(echoPinLeft, HIGH);
-    distanceLeft = (durationLeft/2) / 29.1;
-    Serial.print(distanceLeft);
-    Serial.println(" cm LEFT");
-
-    if (mstop == 1) {
-      if (distanceLeft > 15) {
-        Serial.println("drive_left");
-        //drive_left();                             //drive LEFT when there is room on the left side 
-        //delay(1100);                              //keep turning for 1.1s, can change based on the angle that we want
-        //drive_forward();                          //drive forward on this route
-      } 
-      else if (distanceRight > 15) {
-        Serial.println("drive_right");
-        //drive_right();                            //drive RIGHT when there is room on the right side
-        //delay(1100);                              //keep turning for 1.1s, can change based on the angle that we want
-        //drive_forward();                          //drive forward on this route
-      }
-      else {
-        Serial.println("drive_backward");
-        //drive_backward();                         //when there is no room on either side we drive backward
-        //delay(1500);                              //keep driving backward for 1.5s, can change as we wish
-        //drive_left();                             //when finished driving backward we have to turn 90 degrees
-        //delay(1100);                              //keep turning for 1.1s, can change based on the angle that we want
-      }
-    }
-
-    delay(200);
+    distanceLeft = (durationLeft / 2) / 29.1;
+    //Serial.print(distanceLeft);
+    //Serial.println(" cm LEFT");
+    
+    delay(150);
     
     digitalWrite(trigPin, LOW); 
     delayMicroseconds(2);
@@ -114,18 +102,46 @@ void loop() {
     digitalWrite(trigPin, LOW);
 
     durationRight = pulseIn(echoPinRight, HIGH);
-    distanceRight = (durationRight/2) / 29.1;
-    Serial.print(distanceRight);
-    Serial.println(" cm RIGHT");
-    Serial.println("");
-    
-    
+    distanceRight = (durationRight / 2) / 29.1;
+    //Serial.print(distanceRight);
+    //Serial.println(" cm RIGHT");
 
-    delay(500);
+    delay(150);
+
+    if (mforward == true) {
+      if (distanceLeft <= 9) {
+        //Serial.println("drive_right");
+        drive_right_short();
+      }
+      else if (distanceRight <= 9) {
+        //Serial.println("drive_left");
+        drive_left_short();
+      }
+    }
+    
+    if (mstop == true) {
+      if (distanceLeft >= 9) {
+        //Serial.println("drive_left");
+        drive_left();                
+      } 
+      else if (distanceRight >=9 ) {
+        //Serial.println("drive_right");
+        drive_right();               
+      }
+      else {
+        //Serial.println("drive_backward");
+        drive_backward();
+        //Serial.println("drive_left");
+        drive_left();        
+      }
+    }    
+    Serial.println("");
+    delay(50);
 }
                                                                                    
 void motor_stop() {
-  mstop = 1;
+  mstop = true;
+  mforward = false;
   analogWrite(motor_left[0], 0);
   analogWrite(motor_left[1], 0);
 
@@ -136,16 +152,19 @@ void motor_stop() {
 }
 
 void drive_backward() {
-  mbackward = 1;
+  mbackward = true;
+  mstop = false;
   analogWrite(motor_left[0], 200);
   analogWrite(motor_left[1], 0);
 
   analogWrite(motor_right[0], 200);
   analogWrite(motor_right[1], 0);
+  delay(500);
 }
 
 void drive_forward() {
-  mforward = 1;
+  mforward = true;
+  mstop = false;
   analogWrite(motor_left[0], 0);
   analogWrite(motor_left[1], 200);
 
@@ -154,19 +173,45 @@ void drive_forward() {
 }
 
 void drive_left() {
-  mleft = 1;
+  mleft = true;
+  mstop = false;
   analogWrite(motor_left[0], 0);
   analogWrite(motor_left[1], 200);
 
   analogWrite(motor_right[0], 200);
   analogWrite(motor_right[1], 0);
+  delay(500);
+}
+
+void drive_left_short() {
+  mleft = true;
+  mstop = false;
+  analogWrite(motor_left[0], 0);
+  analogWrite(motor_left[1], 200);
+
+  analogWrite(motor_right[0], 200);
+  analogWrite(motor_right[1], 0);
+  delay(200);
 }
 
 void drive_right() {
-  mright = 1;
+  mright = true;
+  mstop = false;
   analogWrite(motor_left[0], 200);
   analogWrite(motor_left[1], 0);
 
   analogWrite(motor_right[0], 0);
   analogWrite(motor_right[1], 200);
+  delay(500);
+}
+
+void drive_right_short() {
+  mright = true;
+  mstop = false;
+  analogWrite(motor_left[0], 200);
+  analogWrite(motor_left[1], 0);
+
+  analogWrite(motor_right[0], 0);
+  analogWrite(motor_right[1], 200);
+  delay(200);
 }
