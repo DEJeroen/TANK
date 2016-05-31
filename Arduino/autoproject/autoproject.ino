@@ -53,8 +53,8 @@ void setup() {
 void loop() {
       
 
-  if (Serial.available()) {
-        inbyte = Serial.read();
+  if (Serial1.available()) {
+        inbyte = Serial1.read();
         
         if(inbyte == 'm') {
           Serial.print("Manual");
