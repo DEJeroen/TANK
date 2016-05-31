@@ -135,12 +135,29 @@ public class MainActivity extends AppCompatActivity {
         // }
     }
 
+    public void onManualClick(View view){
+        try {
+            btcon.send("m".toString().getBytes());
+
+
+        } catch (IOException | BluetoothConnection.BluetoothConnectionException e) {
+            Log.e("Oxygen Bluetooth", "exception: " + e);
+        }
+    }
+
+    public void onAutomaticClick(View view){
+        try {
+            btcon.send("a".toString().getBytes());
+
+
+        } catch (IOException | BluetoothConnection.BluetoothConnectionException e) {
+            Log.e("Oxygen Bluetooth", "exception: " + e);
+        }
+    }
+
     public void onLeftClick(View view){
         try {
             btcon.send("510,255,".toString().getBytes());
-
-            //btcon.send("255".toString().getBytes());
-            //mOutputView.setText("");
 
         } catch (IOException | BluetoothConnection.BluetoothConnectionException e) {
             Log.e("Oxygen Bluetooth", "exception: " + e);
@@ -150,8 +167,6 @@ public class MainActivity extends AppCompatActivity {
         try {
 
             btcon.send("255,510,".toString().getBytes());
-            //btcon.send("255".toString().getBytes());
-            //mOutputView.setText("");
 
         } catch (IOException | BluetoothConnection.BluetoothConnectionException e) {
             Log.e("Oxygen Bluetooth", "exception: " + e);
@@ -161,8 +176,6 @@ public class MainActivity extends AppCompatActivity {
         try {
             btcon.send("510,510,".toString().getBytes());
 
-            //btcon.send("255".toString().getBytes());
-            //mOutputView.setText("");
 
         } catch (IOException | BluetoothConnection.BluetoothConnectionException e) {
             Log.e("Oxygen Bluetooth", "exception: " + e);
@@ -172,8 +185,6 @@ public class MainActivity extends AppCompatActivity {
         try {
             btcon.send("255,255,".toString().getBytes());
 
-            //btcon.send("255".toString().getBytes());
-            //mOutputView.setText("");
 
         } catch (IOException | BluetoothConnection.BluetoothConnectionException e) {
             Log.e("Oxygen Bluetooth", "exception: " + e);
@@ -182,8 +193,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStopClick(View view){
         try {
             btcon.send("256,256,".toString().getBytes());
-            //btcon.send("255".toString().getBytes());
-            //mOutputView.setText("");
+
 
         } catch (IOException | BluetoothConnection.BluetoothConnectionException e) {
             Log.e("Oxygen Bluetooth", "exception: " + e);

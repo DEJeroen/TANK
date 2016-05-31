@@ -62,9 +62,9 @@
         android:text="Connect"
         android:id="@+id/connectButton"
         android:onClick="onConnectClick"
-        android:layout_below="@+id/seekBarLeft"
-        android:layout_toRightOf="@+id/btnLeft"
-        android:layout_toEndOf="@+id/btnLeft" />
+        android:layout_below="@+id/button2"
+        android:layout_alignLeft="@+id/StopBtn"
+        android:layout_alignStart="@+id/StopBtn" />
 
     <Button
         android:layout_width="wrap_content"
@@ -84,6 +84,26 @@
         android:layout_toLeftOf="@id/btnLeft"
         android:minWidth="2600dp"
         android:layout_centerVertical="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manual"
+        android:id="@+id/buttonManual"
+        android:layout_below="@+id/connectButton"
+        android:layout_toRightOf="@+id/button2"
+        android:layout_toEndOf="@+id/button2"
+        android:onClick="onManualClick"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto"
+        android:id="@+id/buttonAutomatic"
+        android:layout_above="@+id/seekBarLeft"
+        android:layout_toLeftOf="@+id/connectButton"
+        android:layout_toStartOf="@+id/connectButton"
+        android:onClick="onAutomaticClick"/>
 
 
 </RelativeLayout>
