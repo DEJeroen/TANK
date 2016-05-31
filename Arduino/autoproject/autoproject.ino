@@ -1,3 +1,12 @@
+#define trigPin 25
+#define echoPinFront1 31
+#define echoPinFront2 29
+#define echoPinLeft 27
+#define echoPinRight 33
+
+
+long durationFront1, distanceFront1, distanceFront2, durationFront2;
+long durationLeft, distanceLeft, distanceRight, durationRight;
 int motor_left[] = {4, 5};
 int motor_right[] = {2, 3};
 int i;                                                                            //store motor left, right pins
@@ -24,6 +33,21 @@ void setup() {
     pinMode(motor_left[i], OUTPUT);                                               //set pins as outputpins
     pinMode(motor_right[i], OUTPUT);
   }
+
+
+
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPinFront1, INPUT);
+  pinMode(echoPinFront2, INPUT);
+  pinMode(echoPinLeft, INPUT);
+  pinMode(echoPinRight, INPUT);
+
+
+    attachInterrupt(echoPinFront1, setSensorFront1, CHANGE );
+    attachInterrupt(echoPinFront2, setSensorFront2, CHANGE );
+    attachInterrupt(echoPinLeft, setSensorLeft, CHANGE );
+    attachInterrupt(echoPinRight, setSensorRight, CHANGE );
+  
 }
 
 void loop() {
@@ -34,10 +58,12 @@ void loop() {
         
         if(inbyte == 'm') {
           automaticDrive = false;
+          noInterrupts();
         }
 
        else if(inbyte == 'a') {
         automaticDrive = true;
+         interrupts();
        }
 
        if (automaticDrive == false) {
@@ -45,9 +71,6 @@ void loop() {
         
        }
   }
-  if (automaticDrive == true) {
-    automaticControl();
-    }
     }
 
 void manualControl() {
@@ -88,7 +111,79 @@ void manualControl() {
           //Reset wich motor is waiting for data
           counter = 0;
 
-          //Set motor to driveSpeed
+         setMotors();
+
+          //Set Antwerp car to new speed
+
+          
+          
+          
+
+       
+
+
+        
+    }
+}
+
+void setSensorFront1() {
+    durationFront1 = pulseIn(echoPinFront1, HIGH);
+    distanceFront1 = (durationFront1 / 2) / 29.1;
+    automaticControl();
+}
+void setSensorFront2() {
+    durationFront1 = pulseIn(echoPinFront1, HIGH);
+    distanceFront1 = (durationFront1 / 2) / 29.1;
+    automaticControl();
+}
+void setSensorLeft() {
+    durationFront1 = pulseIn(echoPinFront1, HIGH);
+    distanceFront1 = (durationFront1 / 2) / 29.1;
+    automaticControl();
+}
+void setSensorRight() {
+    durationFront1 = pulseIn(echoPinFront1, HIGH);
+    distanceFront1 = (durationFront1 / 2) / 29.1;
+    automaticControl();
+}
+
+void automaticControl() {
+  Serial.print("Drive or not to drive");
+
+      if (distanceFront1 > 15 && distanceFront2 > 15) {                             
+      //Serial.println("drive_forward");                          //if no object in front of neither front sensor, drive forward
+      driveSpeed[0] = 200;
+      driveSpeed[1] = 0;
+      driveSpeed[2] = 200;
+      driveSpeed[3] = 0;
+    }
+    else if (distanceFront1 <= 15 && distanceFront2 > 15) {
+      //Serial.println("drive_left");                             //if an object is in front of the right sensor, drive left
+      driveSpeed[0] = 200;
+      driveSpeed[1] = 0;
+      driveSpeed[2] = 0;
+      driveSpeed[3] = 200;
+    }
+    else if (distanceFront2 <= 15 && distanceFront1 > 15) {
+      //Serial.println("drive_right");                            //if an object is in front of the left sensor, drive right
+      driveSpeed[0] = 0;
+      driveSpeed[1] = 200;
+      driveSpeed[2] = 200;
+      driveSpeed[3] = 0;
+    }
+    else if (distanceFront1 <= 15 && distanceFront2 <= 15) {
+      //Serial.println("motor_stop");
+      driveSpeed[0] = 0;
+      driveSpeed[1] = 0;
+      driveSpeed[2] = 0;
+      driveSpeed[3] = 0;
+    }
+    setMotors();
+}
+
+    void setMotors() {
+
+       //Set motor to driveSpeed
           analogWrite(motor_left[0], driveSpeed[0]);
           analogWrite(motor_left[1], driveSpeed[1]); 
           analogWrite(motor_right[0], driveSpeed[2]);  
@@ -102,9 +197,8 @@ void manualControl() {
                   Serial.print(driveSpeed[3]);
 
 
-          //Set Antwerp car to new speed
 
-          if (driveSpeed[0] == 0 && driveSpeed[1] == 0  && driveSpeed[2] == 0 && driveSpeed[3] == 0  )  {
+                  if (driveSpeed[0] == 0 && driveSpeed[1] == 0  && driveSpeed[2] == 0 && driveSpeed[3] == 0  )  {
     //stop the car
     Serial.println("stop");
     Serial2.write("0");
@@ -136,19 +230,10 @@ void manualControl() {
   else {
     Serial.println("Recieving bogus data!");
   }
-          
-          
 
-       
-
-
-        
+      
     }
-}
 
-void automaticControl() {
-  Serial.print("automatic driving is not implemented");
-}
 
 
 
