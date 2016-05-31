@@ -53,17 +53,25 @@ void setup() {
 void loop() {
       
 
-  if (Serial1.available()) {
-        inbyte = Serial1.read();
+  if (Serial.available()) {
+        inbyte = Serial.read();
         
         if(inbyte == 'm') {
+          Serial.print("Manual");
           automaticDrive = false;
-          noInterrupts();
+         detachInterrupt(echoPinFront1);
+         detachInterrupt(echoPinFront2);
+         detachInterrupt(echoPinLeft);
+         detachInterrupt(echoPinRight);
         }
 
        else if(inbyte == 'a') {
+        Serial.print("Automatic");
         automaticDrive = true;
-         interrupts();
+    attachInterrupt(echoPinFront1, setSensorFront1, CHANGE );
+    attachInterrupt(echoPinFront2, setSensorFront2, CHANGE );
+    attachInterrupt(echoPinLeft, setSensorLeft, CHANGE );
+    attachInterrupt(echoPinRight, setSensorRight, CHANGE );
        }
 
        if (automaticDrive == false) {
