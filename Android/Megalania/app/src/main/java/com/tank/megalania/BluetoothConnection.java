@@ -33,7 +33,7 @@ public class BluetoothConnection {
     private BluetoothAdapter mBluetoothAdapter;
     BluetoothSocket socket;
     BluetoothDevice device = null;
-    final String macAddress = "98:D3:31:20:91:51";
+    final String macAddress = "20:15:12:07:24:18";
     ArrayList<BluetoothDevice> pairedDeviceArrayList;
     boolean connected = false;
     byte[] received = new byte[128];
