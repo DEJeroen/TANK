@@ -51,6 +51,12 @@ void setup() {
 }
 
 void loop() {
+
+    digitalWrite(trigPin, LOW); 
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
       
 
   if (Serial1.available()) {
