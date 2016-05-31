@@ -32,6 +32,11 @@ void setup() {
   for (i = 0; i < 2; i++) {
     pinMode(motor_left[i], OUTPUT);                                               //set pins as outputpins
     pinMode(motor_right[i], OUTPUT);
+
+      driveSpeed[0] = 200;
+      driveSpeed[1] = 0;
+      driveSpeed[2] = 200;
+      driveSpeed[3] = 0;
   }
 
 
