@@ -84,11 +84,6 @@ void loop() {
         manualControl();
         
        }
-
-       if (automaticDrive == true) {
-          automaticControl();
-        
-       }
   }
     }
 
@@ -148,22 +143,22 @@ void manualControl() {
 void setSensorFront1() {
     durationFront1 = pulseIn(echoPinFront1, HIGH);
     distanceFront1 = (durationFront1 / 2) / 29.1;
-
+    automaticControl();
 }
 void setSensorFront2() {
     durationFront1 = pulseIn(echoPinFront1, HIGH);
     distanceFront1 = (durationFront1 / 2) / 29.1;
-
+    automaticControl();
 }
 void setSensorLeft() {
     durationFront1 = pulseIn(echoPinFront1, HIGH);
     distanceFront1 = (durationFront1 / 2) / 29.1;
-
+    automaticControl();
 }
 void setSensorRight() {
     durationFront1 = pulseIn(echoPinFront1, HIGH);
     distanceFront1 = (durationFront1 / 2) / 29.1;
-
+    automaticControl();
 }
 
 void automaticControl() {
