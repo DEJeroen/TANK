@@ -5,11 +5,13 @@ int leftF, leftB, rightF, rightB;                                               
 
 byte inbyte;      //store serial input 
 String serialDataIn;
+String twoValSpeed;
 int data[2];
 int driveSpeed[4];
 int currentSpeed[4];
 int speedChanged;
 int counter;
+bool automaticDrive = true;
 String val;
 
 void setup() {
@@ -29,8 +31,28 @@ void loop() {
 
   if (Serial1.available()) {
         inbyte = Serial1.read();
+        
+        if(inbyte == 'm') {
+          automaticDrive = false;
+        }
 
-        //Reset (Here for when TANK is waiting for the input for the second motor)
+       else if(inbyte == 'a') {
+        automaticDrive = true;
+       }
+
+       if (automaticDrive == false) {
+        manualControl();
+        
+       }
+  }
+  if (automaticDrive == true) {
+    automaticControl();
+    }
+    }
+
+void manualControl() {
+
+    //Reset (Here for when TANK is waiting for the input for the second motor)
  if(inbyte ==  'r'){
           counter = 0;
           }  
@@ -46,21 +68,14 @@ void loop() {
         if(counter >= 2){  // end of line
 
           if (data[0] <= 255) {
-
             driveSpeed[0] = data[0];
             driveSpeed[1] = 0;
-            Serial.println(data[0] + data[1] + "forwardLeft");
-            
-            
-
-
+            Serial.println(data[0] + data[1] + "forwardLeft");   
           }
           else {
             driveSpeed[0] = 0;
             driveSpeed[1] = data[0] - 255;
-            Serial.println(data[0] + data[1] + "backwardsLeft");
-            
-            
+            Serial.println(data[0] + data[1] + "backwardsLeft");         
           }
 
           if (data[1] <= 255) {
@@ -121,13 +136,18 @@ void loop() {
        
 
 
-        }
-  }
+        
+    }
+}
+
+void automaticControl() {
+  Serial.print("automatic driving is not implemented");
+}
 
 
 
  
-}
+
 
  
 
