@@ -61,38 +61,30 @@ void manualControl() {
         if (inbyte == ','){  // Handle delimiter
             data[counter] = serialDataIn.toInt();
             counter = counter + 1;
-            Serial.println(counter);
             serialDataIn = ("");
             
         }
         if(counter >= 2){  // end of line
 
+          
+
           if (data[0] <= 255) {
             driveSpeed[0] = data[0];
             driveSpeed[1] = 0;
-            Serial.println(data[0] + data[1] + "forwardLeft");   
           }
           else {
             driveSpeed[0] = 0;
             driveSpeed[1] = data[0] - 255;
-            Serial.println(data[0] + data[1] + "backwardsLeft");         
           }
 
           if (data[1] <= 255) {
             driveSpeed[2] = data[1];
             driveSpeed[3] = 0;
-            Serial.println(data[3] + data[4] + "forwardRight");
-
-           
-            
           }
           else {
             driveSpeed[2] = 0;
             driveSpeed[3] = data[1] - 255;
-            Serial.println(data[2] + data[3] + "backwardsRight");
-            
-            
-          }
+            }
           //Reset wich motor is waiting for data
           counter = 0;
 
@@ -102,33 +94,47 @@ void manualControl() {
           analogWrite(motor_right[0], driveSpeed[2]);  
           analogWrite(motor_right[1], driveSpeed[3]);
 
+
+
+                  Serial.print(driveSpeed[0]);
+                  Serial.print(driveSpeed[1]);
+                  Serial.print(driveSpeed[2]);
+                  Serial.print(driveSpeed[3]);
+
+
           //Set Antwerp car to new speed
 
-          if (driveSpeed[0] == 0 && driveSpeed[1] == 0  && driveSpeed[2] == 0 && driveSpeed[3]  )  {
+          if (driveSpeed[0] == 0 && driveSpeed[1] == 0  && driveSpeed[2] == 0 && driveSpeed[3] == 0  )  {
     //stop the car
     Serial.println("stop");
     Serial2.write("0");
   }
-  else if  (driveSpeed[0] > 200 && driveSpeed[2] == 200 )  {
+  else if  (driveSpeed[0] > 100 && driveSpeed[1] == 0  && driveSpeed[2] > 100 && driveSpeed[3] == 0 )  {
     //drive car forward
     Serial.println("forward");
     Serial2.write("1");
   }
 
-  else if  (driveSpeed[0] > 200 && driveSpeed[3] == 200)  {
+  
+  else if  (driveSpeed[0] == 0 && driveSpeed[1] > 100  && driveSpeed[2] == 0 && driveSpeed[3] > 100)  {
     //turn left fast
+    Serial.println("backwards");
      Serial2.write("3");
   }
 
-  else if  (driveSpeed[1] > 200 && driveSpeed[2] == 200)  {
+  else if  (driveSpeed[0] > 100 && driveSpeed[1] == 0  && driveSpeed[2] == 0 && driveSpeed[3] > 100)  {
     //turn right fast
-    Serial.println("fast right");
+    Serial.println("right");
     Serial2.write("5");
   }
-  else if  (driveSpeed[3] > 200 && driveSpeed[4] == 200 )  {
+  else if  (driveSpeed[0] == 0 && driveSpeed[1] > 100  && driveSpeed[2] > 100 && driveSpeed[3] == 0 )  {
     //drive car backwards
-    Serial.println("backwards");
+    Serial.println("left");
     Serial2.write("6");
+  }
+
+  else {
+    Serial.println("Recieving bogus data!");
   }
           
           
