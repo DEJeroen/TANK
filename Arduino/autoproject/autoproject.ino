@@ -4,7 +4,6 @@
 #define echoPinLeft 27
 #define echoPinRight 33
 
-
 long durationFront1, distanceFront1, distanceFront2, durationFront2;
 long durationLeft, distanceLeft, distanceRight, durationRight;
 int motor_left[] = {4, 5};
@@ -42,18 +41,12 @@ void setup() {
       driveSpeed[2] = 200;
       driveSpeed[3] = 0;
   }
-
-
-
+  
   pinMode(trigPin, OUTPUT);
   pinMode(echoPinFront1, INPUT);
   pinMode(echoPinFront2, INPUT);
   pinMode(echoPinLeft, INPUT);
-  pinMode(echoPinRight, INPUT);
-
-
-
-  
+  pinMode(echoPinRight, INPUT); 
 }
 
 void loop() {
@@ -183,22 +176,9 @@ void manualControl() {
   else {
     Serial.println("Recieving bogus data!");
         Serial2.print('0');
-  }
-
-      
-    
-          
-          
-          
-
-       
-
-
-        
+  }       
     }
 }
-
-
 
 void automaticControl() {
    /*if (Serial1.available()) {
@@ -390,7 +370,6 @@ void drive_right_short() {
   analogWrite(motor_right[0], 0);
   analogWrite(motor_right[1], 200);
   delay(200);
-
 }
 
 void Random()
