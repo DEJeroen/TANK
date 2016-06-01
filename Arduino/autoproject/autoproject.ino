@@ -147,30 +147,30 @@ void manualControl() {
                   if (driveSpeed[0] == 0 && driveSpeed[1] == 0  && driveSpeed[2] == 0 && driveSpeed[3] == 0  )  {
     //stop the car
     Serial.println("stop");
-    Serial2.write("0");
+    Serial2.print('0');
   }
   else if  (driveSpeed[0] > 100 && driveSpeed[1] == 0  && driveSpeed[2] > 100 && driveSpeed[3] == 0 )  {
     //drive car forward
     Serial.println("forward");
-    Serial2.write("1");
+    Serial2.print('1');
   }
 
   
   else if  (driveSpeed[0] == 0 && driveSpeed[1] > 100  && driveSpeed[2] == 0 && driveSpeed[3] > 100)  {
     //turn left fast
     Serial.println("backwards");
-     Serial2.write("3");
+     Serial2.print('3');
   }
 
   else if  (driveSpeed[0] > 100 && driveSpeed[1] == 0  && driveSpeed[2] == 0 && driveSpeed[3] > 100)  {
     //turn right fast
     Serial.println("right");
-    Serial2.write("5");
+    Serial2.print('5');
   }
   else if  (driveSpeed[0] == 0 && driveSpeed[1] > 100  && driveSpeed[2] > 100 && driveSpeed[3] == 0 )  {
     //drive car backwards
     Serial.println("left");
-    Serial2.write("6");
+    Serial2.print('6');
   }
 
   else {
