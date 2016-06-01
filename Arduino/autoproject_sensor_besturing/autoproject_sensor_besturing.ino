@@ -39,31 +39,23 @@ void loop() {
     if (byteRead==70) {
     }
   }*/
-    digitalWrite(trigPin, LOW); 
-    delayMicroseconds(2);
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
+    trigger();  
   
     durationFront1 = pulseIn(echoPinFront1, HIGH);
     distanceFront1 = (durationFront1 / 2) / 29.1;
     Serial.print(distanceFront1);
     Serial.println(" cm FRONT1");
 
-    delay(120);
+    delay(100);
     
-    digitalWrite(trigPin, LOW); 
-    delayMicroseconds(2);
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
+    trigger();
     
     durationFront2 = pulseIn(echoPinFront2, HIGH);
     distanceFront2 = (durationFront2 / 2) / 29.1;
     Serial.print(distanceFront2);
     Serial.println(" cm FRONT2");
     
-    delay(120);
+    delay(100);
 
     if (distanceFront1 > 15 && distanceFront2 > 15) {                             
       Serial.println("drive_forward");                          //if no object in front of neither front sensor, drive forward
@@ -82,31 +74,23 @@ void loop() {
       motor_stop();
     }
     
-    digitalWrite(trigPin, LOW); 
-    delayMicroseconds(2);
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
+    trigger();
 
     durationLeft = pulseIn(echoPinLeft, HIGH);
     distanceLeft = (durationLeft / 2) / 29.1;
     Serial.print(distanceLeft);
     Serial.println(" cm LEFT");
     
-    delay(120);
+    delay(100);
     
-    digitalWrite(trigPin, LOW); 
-    delayMicroseconds(2);
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
+    trigger();
 
     durationRight = pulseIn(echoPinRight, HIGH);
     distanceRight = (durationRight / 2) / 29.1;
     Serial.print(distanceRight);
     Serial.println(" cm RIGHT");
 
-    delay(120);
+    delay(100);
 
     if (mforward == true) {
       if (distanceLeft <= 7) {
@@ -137,6 +121,14 @@ void loop() {
     }    
     Serial.println("");
     delay(50);
+}
+
+void trigger() {
+   digitalWrite(trigPin, LOW); 
+   delayMicroseconds(2);
+   digitalWrite(trigPin, HIGH);
+   delayMicroseconds(10);
+   digitalWrite(trigPin, LOW);
 }
                                                                                    
 void motor_stop() {
