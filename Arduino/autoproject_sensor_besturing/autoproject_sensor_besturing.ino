@@ -47,10 +47,10 @@ void loop() {
   
     durationFront1 = pulseIn(echoPinFront1, HIGH);
     distanceFront1 = (durationFront1 / 2) / 29.1;
-    //Serial.print(distanceFront1);
-    //Serial.println(" cm FRONT1");
+    Serial.print(distanceFront1);
+    Serial.println(" cm FRONT1");
 
-    delay(150);
+    delay(120);
     
     digitalWrite(trigPin, LOW); 
     delayMicroseconds(2);
@@ -60,25 +60,25 @@ void loop() {
     
     durationFront2 = pulseIn(echoPinFront2, HIGH);
     distanceFront2 = (durationFront2 / 2) / 29.1;
-    //Serial.print(distanceFront2);
-    //Serial.println(" cm FRONT2");
+    Serial.print(distanceFront2);
+    Serial.println(" cm FRONT2");
     
-    delay(150);
+    delay(120);
 
     if (distanceFront1 > 15 && distanceFront2 > 15) {                             
-      //Serial.println("drive_forward");                          //if no object in front of neither front sensor, drive forward
+      Serial.println("drive_forward");                          //if no object in front of neither front sensor, drive forward
       drive_forward();
     }
     else if (distanceFront1 <= 15 && distanceFront2 > 15) {
-      //Serial.println("drive_left");                             //if an object is in front of the right sensor, drive left
+      Serial.println("drive_left");                             //if an object is in front of the right sensor, drive left
       drive_left();
     }
     else if (distanceFront2 <= 15 && distanceFront1 > 15) {
-      //Serial.println("drive_right");                            //if an object is in front of the left sensor, drive right
+      Serial.println("drive_right");                            //if an object is in front of the left sensor, drive right
       drive_right();
     }
     else if (distanceFront1 <= 15 && distanceFront2 <= 15) {
-      //Serial.println("motor_stop");
+      Serial.println("motor_stop");
       motor_stop();
     }
     
@@ -90,10 +90,10 @@ void loop() {
 
     durationLeft = pulseIn(echoPinLeft, HIGH);
     distanceLeft = (durationLeft / 2) / 29.1;
-    //Serial.print(distanceLeft);
-    //Serial.println(" cm LEFT");
+    Serial.print(distanceLeft);
+    Serial.println(" cm LEFT");
     
-    delay(150);
+    delay(120);
     
     digitalWrite(trigPin, LOW); 
     delayMicroseconds(2);
@@ -103,35 +103,35 @@ void loop() {
 
     durationRight = pulseIn(echoPinRight, HIGH);
     distanceRight = (durationRight / 2) / 29.1;
-    //Serial.print(distanceRight);
-    //Serial.println(" cm RIGHT");
+    Serial.print(distanceRight);
+    Serial.println(" cm RIGHT");
 
-    delay(150);
+    delay(120);
 
     if (mforward == true) {
-      if (distanceLeft <= 9) {
-        //Serial.println("drive_right");
+      if (distanceLeft <= 7) {
+        Serial.println("drive_right");
         drive_right_short();
       }
-      else if (distanceRight <= 9) {
-        //Serial.println("drive_left");
+      else if (distanceRight <= 7) {
+        Serial.println("drive_left");
         drive_left_short();
       }
     }
     
     if (mstop == true) {
       if (distanceLeft >= 9) {
-        //Serial.println("drive_left");
+        Serial.println("drive_left");
         drive_left();                
       } 
       else if (distanceRight >=9 ) {
-        //Serial.println("drive_right");
+        Serial.println("drive_right");
         drive_right();               
       }
       else {
-        //Serial.println("drive_backward");
+        Serial.println("drive_backward");
         drive_backward();
-        //Serial.println("drive_left");
+        Serial.println("drive_left");
         drive_left();        
       }
     }    
