@@ -64,8 +64,8 @@ void loop() {
     digitalWrite(trigPin, LOW);
       
 
-  if (Serial.available()) {
-        inbyte = Serial.read();
+  if (Serial1.available()) {
+        inbyte = Serial1.read();
         
         if(inbyte == 'm') {
           Serial.print("Manual");
@@ -151,30 +151,37 @@ void manualControl() {
   }
   else if  (driveSpeed[0] > 100 && driveSpeed[1] == 0  && driveSpeed[2] > 100 && driveSpeed[3] == 0 )  {
     //drive car forward
-    Serial.println("forward");
-    Serial2.print('1');
+        Serial.println("backwards");
+     Serial2.print('6');
+
   }
 
   
   else if  (driveSpeed[0] == 0 && driveSpeed[1] > 100  && driveSpeed[2] == 0 && driveSpeed[3] > 100)  {
     //turn left fast
-    Serial.println("backwards");
-     Serial2.print('3');
+
+         Serial.println("forward");
+    Serial2.print('1');
   }
 
   else if  (driveSpeed[0] > 100 && driveSpeed[1] == 0  && driveSpeed[2] == 0 && driveSpeed[3] > 100)  {
     //turn right fast
-    Serial.println("right");
+    
+       Serial.println("right");
     Serial2.print('5');
+
+ 
   }
   else if  (driveSpeed[0] == 0 && driveSpeed[1] > 100  && driveSpeed[2] > 100 && driveSpeed[3] == 0 )  {
     //drive car backwards
-    Serial.println("left");
-    Serial2.print('6');
+
+            Serial.println("left");
+    Serial2.print('3');
   }
 
   else {
     Serial.println("Recieving bogus data!");
+        Serial2.print('0');
   }
 
       
