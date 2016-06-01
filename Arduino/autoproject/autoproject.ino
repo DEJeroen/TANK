@@ -22,8 +22,11 @@ int speedChanged;
 int counter;
 bool automaticDrive = true;
 String val;
+bool mstop, mforward, mbackward, mleft, mright;
 
 void setup() {
+  mstop, mforward, mbackward, mleft, mright = false;
+
   Serial.begin(9600);     //USB Serial
   Serial1.begin(9600);  //Connection with Megalania (Android app)
   Serial2.begin(9600);  //Connection with other car
@@ -48,10 +51,7 @@ void setup() {
   pinMode(echoPinRight, INPUT);
 
 
-    attachInterrupt(echoPinFront1, setSensorFront1, CHANGE );
-    attachInterrupt(echoPinFront2, setSensorFront2, CHANGE );
-    attachInterrupt(echoPinLeft, setSensorLeft, CHANGE );
-    attachInterrupt(echoPinRight, setSensorRight, CHANGE );
+
   
 }
 
@@ -64,31 +64,28 @@ void loop() {
     digitalWrite(trigPin, LOW);
       
 
-  if (Serial1.available()) {
-        inbyte = Serial1.read();
+  if (Serial.available()) {
+        inbyte = Serial.read();
         
         if(inbyte == 'm') {
           Serial.print("Manual");
           automaticDrive = false;
-         detachInterrupt(echoPinFront1);
-         detachInterrupt(echoPinFront2);
-         detachInterrupt(echoPinLeft);
-         detachInterrupt(echoPinRight);
+
         }
 
        else if(inbyte == 'a') {
         Serial.print("Automatic");
         automaticDrive = true;
-    attachInterrupt(echoPinFront1, setSensorFront1, CHANGE );
-    attachInterrupt(echoPinFront2, setSensorFront2, CHANGE );
-    attachInterrupt(echoPinLeft, setSensorLeft, CHANGE );
-    attachInterrupt(echoPinRight, setSensorRight, CHANGE );
+
        }
 
        if (automaticDrive == false) {
         manualControl();
         
        }
+  }
+  if (automaticDrive) {
+    automaticControl();
   }
     }
 
@@ -130,77 +127,7 @@ void manualControl() {
           //Reset wich motor is waiting for data
           counter = 0;
 
-         setMotors();
 
-          //Set Antwerp car to new speed
-
-          
-          
-          
-
-       
-
-
-        
-    }
-}
-
-void setSensorFront1() {
-    durationFront1 = pulseIn(echoPinFront1, HIGH);
-    distanceFront1 = (durationFront1 / 2) / 29.1;
-    automaticControl();
-}
-void setSensorFront2() {
-    durationFront1 = pulseIn(echoPinFront1, HIGH);
-    distanceFront1 = (durationFront1 / 2) / 29.1;
-    automaticControl();
-}
-void setSensorLeft() {
-    durationFront1 = pulseIn(echoPinFront1, HIGH);
-    distanceFront1 = (durationFront1 / 2) / 29.1;
-    automaticControl();
-}
-void setSensorRight() {
-    durationFront1 = pulseIn(echoPinFront1, HIGH);
-    distanceFront1 = (durationFront1 / 2) / 29.1;
-    automaticControl();
-}
-
-void automaticControl() {
-  Serial.print("Drive or not to drive");
-
-      if (distanceFront1 > 15 && distanceFront2 > 15) {                             
-      //Serial.println("drive_forward");                          //if no object in front of neither front sensor, drive forward
-      driveSpeed[0] = 200;
-      driveSpeed[1] = 0;
-      driveSpeed[2] = 200;
-      driveSpeed[3] = 0;
-    }
-    else if (distanceFront1 <= 15 && distanceFront2 > 15) {
-      //Serial.println("drive_left");                             //if an object is in front of the right sensor, drive left
-      driveSpeed[0] = 200;
-      driveSpeed[1] = 0;
-      driveSpeed[2] = 0;
-      driveSpeed[3] = 200;
-    }
-    else if (distanceFront2 <= 15 && distanceFront1 > 15) {
-      //Serial.println("drive_right");                            //if an object is in front of the left sensor, drive right
-      driveSpeed[0] = 0;
-      driveSpeed[1] = 200;
-      driveSpeed[2] = 200;
-      driveSpeed[3] = 0;
-    }
-    else if (distanceFront1 <= 15 && distanceFront2 <= 15) {
-      //Serial.println("motor_stop");
-      driveSpeed[0] = 0;
-      driveSpeed[1] = 0;
-      driveSpeed[2] = 0;
-      driveSpeed[3] = 0;
-    }
-    setMotors();
-}
-
-    void setMotors() {
 
        //Set motor to driveSpeed
           analogWrite(motor_left[0], driveSpeed[0]);
@@ -251,7 +178,199 @@ void automaticControl() {
   }
 
       
+    
+          
+          
+          
+
+       
+
+
+        
     }
+}
+
+
+
+void automaticControl() {
+   /*if (Serial1.available()) {
+    byteRead = Serial1.read();
+    Serial.println(byteRead);
+
+    if (byteRead==70) {
+    }
+  }*/
+    trigger();  
+  
+    durationFront1 = pulseIn(echoPinFront1, HIGH);
+    distanceFront1 = (durationFront1 / 2) / 29.1;
+    Serial.print(distanceFront1);
+    Serial.println(" cm FRONT1");
+
+    delay(100);
+    
+    trigger();
+    
+    durationFront2 = pulseIn(echoPinFront2, HIGH);
+    distanceFront2 = (durationFront2 / 2) / 29.1;
+    Serial.print(distanceFront2);
+    Serial.println(" cm FRONT2");
+    
+    delay(100);
+
+    if (distanceFront1 > 15 && distanceFront2 > 15) {                             
+      Serial.println("drive_forward");                          //if no object in front of neither front sensor, drive forward
+      drive_forward();
+    }
+    else if (distanceFront1 <= 15 && distanceFront2 > 15) {
+      Serial.println("drive_left");                             //if an object is in front of the right sensor, drive left
+      drive_left();
+    }
+    else if (distanceFront2 <= 15 && distanceFront1 > 15) {
+      Serial.println("drive_right");                            //if an object is in front of the left sensor, drive right
+      drive_right();
+    }
+    else if (distanceFront1 <= 15 && distanceFront2 <= 15) {
+      Serial.println("motor_stop");
+      motor_stop();
+    }
+    
+    trigger();
+
+    durationLeft = pulseIn(echoPinLeft, HIGH);
+    distanceLeft = (durationLeft / 2) / 29.1;
+    Serial.print(distanceLeft);
+    Serial.println(" cm LEFT");
+    
+    delay(100);
+    
+    trigger();
+
+    durationRight = pulseIn(echoPinRight, HIGH);
+    distanceRight = (durationRight / 2) / 29.1;
+    Serial.print(distanceRight);
+    Serial.println(" cm RIGHT");
+
+    delay(100);
+
+    if (mforward == true) {
+      if (distanceLeft <= 7) {
+        Serial.println("drive_right");
+        drive_right_short();
+      }
+      else if (distanceRight <= 7) {
+        Serial.println("drive_left");
+        drive_left_short();
+      }
+    }
+    
+    if (mstop == true) {
+      if (distanceLeft >= 9) {
+        Serial.println("drive_left");
+        drive_left();                
+      } 
+      else if (distanceRight >=9 ) {
+        Serial.println("drive_right");
+        drive_right();               
+      }
+      else {
+        Serial.println("drive_backward");
+        drive_backward();
+        Serial.println("drive_left");
+        drive_left();        
+      }
+    }    
+    Serial.println("");
+    delay(50);
+}
+
+void trigger() {
+   digitalWrite(trigPin, LOW); 
+   delayMicroseconds(2);
+   digitalWrite(trigPin, HIGH);
+   delayMicroseconds(10);
+   digitalWrite(trigPin, LOW);
+}
+                                                                                   
+void motor_stop() {
+  mstop = true;
+  mforward = false;
+  analogWrite(motor_left[0], 0);
+  analogWrite(motor_left[1], 0);
+
+  analogWrite(motor_right[0], 0);
+  analogWrite(motor_right[1], 0);
+  delay(25);
+  
+}
+
+void drive_backward() {
+  mbackward = true;
+  mstop = false;
+  analogWrite(motor_left[0], 200);
+  analogWrite(motor_left[1], 0);
+
+  analogWrite(motor_right[0], 200);
+  analogWrite(motor_right[1], 0);
+  delay(500);
+}
+
+void drive_forward() {
+  mforward = true;
+  mstop = false;
+  analogWrite(motor_left[0], 0);
+  analogWrite(motor_left[1], 200);
+
+  analogWrite(motor_right[0], 0);
+  analogWrite(motor_right[1], 200);
+}
+
+void drive_left() {
+  mleft = true;
+  mstop = false;
+  analogWrite(motor_left[0], 0);
+  analogWrite(motor_left[1], 200);
+
+  analogWrite(motor_right[0], 200);
+  analogWrite(motor_right[1], 0);
+  delay(500);
+}
+
+void drive_left_short() {
+  mleft = true;
+  mstop = false;
+  analogWrite(motor_left[0], 0);
+  analogWrite(motor_left[1], 200);
+
+  analogWrite(motor_right[0], 200);
+  analogWrite(motor_right[1], 0);
+  delay(200);
+}
+
+void drive_right() {
+  mright = true;
+  mstop = false;
+  analogWrite(motor_left[0], 200);
+  analogWrite(motor_left[1], 0);
+
+  analogWrite(motor_right[0], 0);
+  analogWrite(motor_right[1], 200);
+  delay(500);
+}
+
+void drive_right_short() {
+  mright = true;
+  mstop = false;
+  analogWrite(motor_left[0], 200);
+  analogWrite(motor_left[1], 0);
+
+  analogWrite(motor_right[0], 0);
+  analogWrite(motor_right[1], 200);
+  delay(200);
+
+}
+
+    
 
 
 
