@@ -20,6 +20,7 @@ int driveSpeed[4];
 int currentSpeed[4];
 int speedChanged;
 int counter;
+int randNumber;
 bool automaticDrive = true;
 String val;
 bool mstop, mforward, mbackward, mleft, mright;
@@ -272,14 +273,29 @@ void automaticControl() {
     }
     
     if (mstop == true) {
+      // Pick random number
+      Random();
       if (distanceLeft >= 9) {
-        Serial.println("drive_left");
-        drive_left();                
-      } 
-      else if (distanceRight >=9 ) {
-        Serial.println("drive_right");
-        drive_right();               
+        if (randNumber == 0)
+        {
+          Serial.println("drive_left");
+          drive_left();                
+        }
+        else{   
+          if (distanceRight >= 9) {
+            if (randNumber == 1)
+            {
+              Serial.println("drive_right");
+              drive_right();     
+            }
+          }
+          else {
+              drive_left();
+          }
+        } 
+
       }
+      
       else {
         Serial.println("drive_backward");
         drive_backward();
@@ -375,6 +391,12 @@ void drive_right_short() {
   analogWrite(motor_right[1], 200);
   delay(200);
 
+}
+
+void Random()
+{
+  // Random number between 0 and 1
+  randNumber = random(2);
 }
 
     
