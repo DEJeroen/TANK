@@ -287,7 +287,7 @@ void automaticControl() {
     delay(50); 
     String comma = ",";
     String sendBack = distanceFront1 + comma  + distanceFront2 + comma + distanceLeft + comma +  distanceLeft;
-    Serial.print(sendBack);
+    Serial1.print(sendBack);
 }
 
 void trigger() {

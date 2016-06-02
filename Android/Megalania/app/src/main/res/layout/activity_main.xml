@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forward"
-        android:id="@+id/button"
+        android:id="@+id/buttonForward"
         android:onClick="onForwardClick"
         android:layout_centerHorizontal="true" />
 
@@ -21,30 +21,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Backward"
-        android:id="@+id/button2"
+        android:id="@+id/buttonBackwards"
+        android:onClick="onBackwardClick"
         android:layout_below="@+id/btnLeft"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button"
-        android:onClick="onBackwardClick"/>
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Left"
         android:id="@+id/btnLeft"
-        android:layout_below="@+id/button"
-        android:layout_toLeftOf="@+id/button"
-        android:layout_toStartOf="@+id/button"
-        android:onClick="onLeftClick"/>
+        android:onClick="onLeftClick"
+        android:layout_alignTop="@+id/buttonStop"
+        android:layout_toLeftOf="@+id/buttonBackwards"
+        android:layout_toStartOf="@+id/buttonBackwards" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Right"
         android:id="@+id/btnRight"
-        android:layout_below="@+id/button"
-        android:layout_toRightOf="@+id/button"
-        android:layout_toEndOf="@+id/button"
+        android:layout_below="@+id/buttonForward"
+        android:layout_toRightOf="@+id/buttonForward"
+        android:layout_toEndOf="@+id/buttonForward"
         android:onClick="onRightClick"/>
 
     <SeekBar
@@ -54,7 +53,8 @@
         android:rotation="270"
         android:layout_toRightOf="@id/btnRight"
         android:minWidth="1600dp"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:indeterminate="false" />
 
     <Button
         android:layout_width="wrap_content"
@@ -62,17 +62,17 @@
         android:text="Connect"
         android:id="@+id/connectButton"
         android:onClick="onConnectClick"
-        android:layout_below="@+id/button2"
-        android:layout_alignLeft="@+id/StopBtn"
-        android:layout_alignStart="@+id/StopBtn" />
+        android:layout_above="@+id/seekBarLeft"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stop"
-        android:id="@+id/StopBtn"
+        android:id="@+id/buttonStop"
         android:onClick="onStopClick"
-        android:layout_below="@+id/button"
+        android:layout_below="@+id/buttonForward"
         android:layout_toLeftOf="@+id/btnRight"
         android:layout_toStartOf="@+id/btnRight" />
 
@@ -90,10 +90,9 @@
         android:layout_height="wrap_content"
         android:text="Manual"
         android:id="@+id/buttonManual"
-        android:layout_below="@+id/connectButton"
-        android:layout_toRightOf="@+id/button2"
-        android:layout_toEndOf="@+id/button2"
-        android:onClick="onManualClick"/>
+        android:onClick="onManualClick"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -101,9 +100,48 @@
         android:text="Auto"
         android:id="@+id/buttonAutomatic"
         android:layout_above="@+id/seekBarLeft"
-        android:layout_toLeftOf="@+id/connectButton"
-        android:layout_toStartOf="@+id/connectButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:onClick="onAutomaticClick"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="forward1"
+        android:id="@+id/textViewforward1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="forward2"
+        android:id="@+id/textViewforward2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="left"
+        android:id="@+id/textViewleft"
+        android:layout_alignTop="@+id/textViewRight"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="right"
+        android:id="@+id/textViewRight"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
 
 
 </RelativeLayout>
