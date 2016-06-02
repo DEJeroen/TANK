@@ -32,7 +32,7 @@ public class BluetoothConnection {
 
 
 
-    public static String heartRate = "kappa";
+    public static String heartRate = " ";
     private OutputStream mOutputStream;
     private InputStream mInputStream;
     private BluetoothAdapter mBluetoothAdapter;
