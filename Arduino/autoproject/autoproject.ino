@@ -284,7 +284,10 @@ void automaticControl() {
       }
     }    
     Serial.println("");
-    delay(50);
+    delay(50); 
+    String comma = ",";
+    String sendBack = distanceFront1 + comma  + distanceFront2 + comma + distanceLeft + comma +  distanceLeft;
+    Serial.print(sendBack);
 }
 
 void trigger() {
