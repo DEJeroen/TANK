@@ -41,7 +41,8 @@ public class BluetoothConnection {
     final String macAddress = "20:15:12:07:24:18";
 
 
-    String kappa = "1";
+
+   // String kappa = "8";
     ArrayList<BluetoothDevice> pairedDeviceArrayList;
     boolean connected = false;
     static boolean globalConnected = false;
@@ -118,7 +119,7 @@ public class BluetoothConnection {
                             mInputStream = socket.getInputStream();
                             mInputStream.read(received, 0, received.length);
                             try {
-                                mOutputStream.write(kappa.getBytes(), 0, kappa.length());
+                           //     mOutputStream.write(kappa.getBytes(), 0, kappa.length());
                                 ShowData(received);
 
                                 Intent intent = new Intent("com.tank.megalania");
