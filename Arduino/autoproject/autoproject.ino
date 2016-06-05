@@ -1,10 +1,10 @@
 #define trigPin 25
-#define echoPinFront1 31
-#define echoPinFront2 29
+#define echoPinFrontR 31
+#define echoPinFrontL 29
 #define echoPinLeft 27
 #define echoPinRight 33
 
-long durationFront1, distanceFront1, distanceFront2, durationFront2;
+long durationFrontR, distanceFrontR, distanceFrontL, durationFrontL;
 long durationLeft, distanceLeft, distanceRight, durationRight;
 int motor_left[] = {4, 5};
 int motor_right[] = {2, 3};
@@ -188,37 +188,40 @@ void automaticControl() {
     if (byteRead==70) {
     }
   }*/
+
+    drive_forward();
+    
     trigger();  
   
-    durationFront1 = pulseIn(echoPinFront1, HIGH);
-    distanceFront1 = (durationFront1 / 2) / 29.1;
-    Serial.print(distanceFront1);
+    durationFrontR = pulseIn(echoPinFrontR, HIGH);
+    distanceFrontR = (durationFrontR / 2) / 29.1;
+    Serial.print(distanceFrontR);
     Serial.println(" cm FRONT1");
 
     delay(100);
     
     trigger();
     
-    durationFront2 = pulseIn(echoPinFront2, HIGH);
-    distanceFront2 = (durationFront2 / 2) / 29.1;
-    Serial.print(distanceFront2);
+    durationFrontL = pulseIn(echoPinFrontL, HIGH);
+    distanceFrontL = (durationFrontL / 2) / 29.1;
+    Serial.print(distanceFrontL);
     Serial.println(" cm FRONT2");
     
     delay(100);
 
-    if (distanceFront1 > 15 && distanceFront2 > 15) {                             
+    if (distanceFrontR > 15 && distanceFrontL > 15) {                             
       Serial.println("drive_forward");                          //if no object in front of neither front sensor, drive forward
       drive_forward();
     }
-    else if (distanceFront1 <= 15 && distanceFront2 > 15) {
+    else if (distanceFrontR <= 15 && distanceFrontL > 15) {
       Serial.println("drive_left");                             //if an object is in front of the right sensor, drive left
       drive_left();
     }
-    else if (distanceFront2 <= 15 && distanceFront1 > 15) {
+    else if (distanceFrontL <= 15 && distanceFrontR > 15) {
       Serial.println("drive_right");                            //if an object is in front of the left sensor, drive right
       drive_right();
     }
-    else if (distanceFront1 <= 15 && distanceFront2 <= 15) {
+    else if (distanceFrontR <= 15 && distanceFrontL <= 15) {
       Serial.println("motor_stop");
       motor_stop();
     }
@@ -261,32 +264,34 @@ void automaticControl() {
           Serial.println("drive_left");
           drive_left();                
         }
-        else{   
-          if (distanceRight >= 9) {
-            if (randNumber == 1)
-            {
-              Serial.println("drive_right");
-              drive_right();     
-            }
-          }
-          else {
-              drive_left();
-          }
-        } 
-
+        else if (randNumber == 1) {
+          Serial.println("drive_right");
+          drive_right();        
+        }
       }
-      
-      else {
+      else if (distanceRight >= 9) {
+         if (randNumber == 1)
+         {
+           Serial.println("drive_right");
+           drive_right();     
+         }
+         else if (randNumber == 0) {
+          Serial.println("drive_left");
+          drive_left();
+         }
+       }
+       else {
         Serial.println("drive_backward");
         drive_backward();
         Serial.println("drive_left");
         drive_left();        
-      }
-    }    
+       }
+     }
+        
     Serial.println("");
     delay(50); 
     String comma = ",";
-    String sendBack = distanceFront1 + comma  + distanceFront2 + comma + distanceLeft + comma +  distanceLeft + comma;
+    String sendBack = distanceFrontR + comma  + distanceFrontL + comma + distanceLeft + comma +  distanceLeft, comma;
     Serial1.print(sendBack);
 }
 
@@ -377,7 +382,7 @@ void drive_right_short() {
 
 void Random()
 {
-  // Random number between 0 and 1
+  // Random number, 0 OR 1
   randNumber = random(2);
 }
 
