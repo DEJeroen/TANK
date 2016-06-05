@@ -263,31 +263,8 @@ void automaticControl() {
         {
           Serial.println("drive_left");
           drive_left();                
-        }
-        else if (randNumber == 1) {
-          Serial.println("drive_right");
-          drive_right();
-        }
-        else {
-          drive_right();
-        }
-      }
-      else if (distanceRight >= 9) {
-        if (randNumber == 0) {
-          Serial.println("drive_right");
-          drive_right();
-        }
-        else if (randNumber == 0) {
-          Serial.println("");
-          drive_left();
-        }
-        else {
-          drive_left();
-        }
-      }
-        
-        
-        /*else {   
+        }        
+        else {   
           if (distanceRight >= 9) {
             if (randNumber == 1)
             {
@@ -300,7 +277,7 @@ void automaticControl() {
           }
         } 
 
-      }*/
+      }
       
       else {
         Serial.println("drive_backward");
@@ -308,8 +285,7 @@ void automaticControl() {
         Serial.println("drive_left");
         drive_left();        
       }
-    }
-        
+    }    
     Serial.println("");
     delay(50); 
     String comma = ",";
