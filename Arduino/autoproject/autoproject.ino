@@ -247,11 +247,11 @@ void automaticControl() {
     if (mforward == true) {
       if (distanceLeft <= 7) {
         Serial.println("drive_right");
-        drive_right_short();
+        drive_right_moving();
       }
       else if (distanceRight <= 7) {
         Serial.println("drive_left");
-        drive_left_short();
+        drive_left_moving();
       }
     }
     
@@ -347,6 +347,17 @@ void drive_left() {
   delay(500);
 }
 
+void drive_left_moving() {
+  mleft = true;
+  mstop = false;
+  analogWrite(motor_left[0], 0);
+  analogWrite(motor_left[1], 200);
+
+  analogWrite(motor_right[0], 0);
+  analogWrite(motor_right[1], 0);
+  delay(500);
+}
+
 void drive_left_short() {
   mleft = true;
   mstop = false;
@@ -362,6 +373,17 @@ void drive_right() {
   mright = true;
   mstop = false;
   analogWrite(motor_left[0], 200);
+  analogWrite(motor_left[1], 0);
+
+  analogWrite(motor_right[0], 0);
+  analogWrite(motor_right[1], 200);
+  delay(500);
+}
+
+void drive_right_moving() {
+  mright = true;
+  mstop = false;
+  analogWrite(motor_left[0], 0);
   analogWrite(motor_left[1], 0);
 
   analogWrite(motor_right[0], 0);
