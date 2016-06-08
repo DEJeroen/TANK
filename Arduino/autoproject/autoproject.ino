@@ -43,8 +43,8 @@ void setup() {
   }
   
   pinMode(trigPin, OUTPUT);
-  pinMode(echoPinFront1, INPUT);
-  pinMode(echoPinFront2, INPUT);
+  pinMode(echoPinFrontR, INPUT);
+  pinMode(echoPinFrontL, INPUT);
   pinMode(echoPinLeft, INPUT);
   pinMode(echoPinRight, INPUT); 
 }
